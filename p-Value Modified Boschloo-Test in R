@@ -1,0 +1,128 @@
+
+
+
+x1 <- 1
+x2 <- 2
+x3 <- 3
+
+
+n1 <- 4
+n2 <- 5
+n3 <- 6
+
+
+gamma <- 0.001
+
+
+# OCT = observed contingency table
+# (A)PCT = (All) possible ontingency tables
+
+
+
+
+
+# 1: Computing p_value of Fishers exact test of OCT
+
+
+sum <- 0
+prob_OCT <- choose(n1,x1)*choose(n2,x2)*choose(n3,x3) / choose(n1+n2+n3,x1+x2+x3)
+for (i in max(0,x1+x2+x3-n2-n3):min(x1+x2+x3,n1)) { 
+                                            for (j in max(0,x1+x2+x3-i-n3):min(x1+x2+x3-i,n2)) {
+                                                                                         z <- x1+x2+x3-i-j                 
+                                                                                         if (choose(n1,i)*choose(n2,j)*choose(n3,z) / choose(n1+n2+n3,x1+x2+x3) <= prob_OCT) {
+                                                                                                                                                                             prob_CT <- choose(n1,i)*choose(n2,j)*choose(n3,z) / choose(n1+n2+n3,x1+x2+x3)
+                                                                                                                                                                             sum <- sum + prob_CT
+                                                                                                                                                                             }   
+                                                                                         }                                                                                                                                                  
+                                            }                                             
+p_F_value_OCT <- sum
+
+
+
+
+
+
+
+# 2: Computing p_value of Fishers exact test for all possible contingency tables
+
+
+
+
+p_F_value_APCT <- matrix(ncol=4, , byrow=TRUE)
+p_F_value_APCT <- p_F_value_APCT[-1, , drop=FALSE]
+
+
+ for (a in 0:n1) {
+                 for (b in 0:n2) {
+                                 for (c in 0:n3) {                                                                                                                                                
+                                                Sum <- 0
+                                                term <- choose(n1,a)*choose(n2,b)*choose(n3,c) / choose(n1+n2+n3,a+b+c)
+                                                for (i in max(0,a+b+c-n2-n3):min(a+b+c,n1)) { 
+                                                                                            for (j in max(0,a+b+c-i-n3):min(a+b+c-i,n2)) {
+                                                                                                                                         z <- a+b+c-i-j                 
+                                                                                                                                         if (choose(n1,i)*choose(n2,j)*choose(n3,z) / choose(n1+n2+n3,a+b+c) <= term) {
+                                                                                                                                                                                                                     Term <- choose(n1,i)*choose(n2,j)*choose(n3,z) / choose(n1+n2+n3,a+b+c)
+                                                                                                                                                                                                                     Sum <- Sum + Term
+                                                                                                                                                                                                                     }   
+                                                                                                                                        }                                                                                                                                                  
+                                                                                             } 
+                                                p_F_value_PCT <- Sum                                                                                     
+                                                new_pair <- c(a,b,c, p_F_value_PCT)
+                                                p_F_value_APCT <- rbind(p_F_value_APCT, new_pair)
+                                                }
+                                  }
+                  }
+
+
+
+
+
+
+# 3: Selecting possible contingency tables at least as extreme as the OCT
+
+more_extreme_CT <- matrix(ncol=3, , byrow=TRUE)
+more_extreme_CT <- more_extreme_CT [-1, , drop=FALSE]
+
+
+
+for (i in 1:nrow(p_F_value_APCT)) {
+                               if (p_F_value_APCT[i,4] <= p_F_value_OCT) {                                                                                                                         
+                                                                     new_pair <- c(p_F_value_APCT[i,1], p_F_value_APCT[i,2], p_F_value_APCT[i,3])
+                                                                     more_extreme_CT <- rbind(more_extreme_CT, new_pair)
+                                                                     } 
+                                  }
+
+
+
+
+
+# 4: Calculating p_value of observed contingency table
+                       
+sum <- 0
+sumI <- 0
+n <- n1+n2+n3
+x <- x1+x2+x3
+pi_l <- 1/ (1 + (n - x +1)/ (x* qf(gamma/2,2*x,2*(n-x+1))))
+pi_h <- 1/ (1 + (n - x)/ ((x+1)* qf(1-gamma/2,2*(x+1),2*(n-x))))
+p <- seq(pi_l, pi_h, by=0.001)
+
+
+
+
+for (k in 1:nrow(more_extreme_CT)) {
+                                  Term <- choose(n1,more_extreme_CT[k,1]) * choose(n2,more_extreme_CT[k,2]) * choose(n3,more_extreme_CT[k,3]) * p^(more_extreme_CT[k,1]+more_extreme_CT[k,2]+more_extreme_CT[k,3]) * (1-p)^(n1+n2+n3-(more_extreme_CT[k,1]+more_extreme_CT[k,2]+more_extreme_CT[k,3]))
+                                  sum <- sum + Term 
+                                   }                                                            
+p_max <- p[which.max(sum)]
+for (k in 1:nrow(more_extreme_CT)) {
+                                  TermI <- choose(n1,more_extreme_CT[k,1]) * choose(n2,more_extreme_CT[k,2]) * choose(n3,more_extreme_CT[k,3]) * p_max^(more_extreme_CT[k,1]+more_extreme_CT[k,2]+more_extreme_CT[k,3]) * (1-p_max)^(n1+n2+n3-(more_extreme_CT[k,1]+more_extreme_CT[k,2]+more_extreme_CT[k,3]))
+                                  sumI <- sumI + TermI 
+                                  }
+p_value_OCT <- sumI + gamma                                
+                              
+                              
+
+p_value_OCT
+
+
+
