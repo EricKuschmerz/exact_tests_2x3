@@ -1,35 +1,46 @@
+
+#OCT = observed contingency table
+
+
 my_matrix <- matrix(ncol=3, byrow=TRUE)
 
 my_matrix <- my_matrix[-1, , drop=FALSE]
 
 
 
-m <- 8
-n <- 7
+
+x1 <- 1
+x2 <- 2
+x3 <- 3
+
+
+
+m <- 4
+n <- 5
 u <- 6
 
-alpha <- 0.05
+
 
 p <- seq(0.001, 0.500, by=0.001)
 
 
 
-kandidatenmenge1 <- matrix(ncol=3, , byrow=TRUE)
-kandidatenmenge1 <- kandidatenmenge1[-1, , drop=FALSE]
+candidate_set1 <- matrix(ncol=3, , byrow=TRUE)
+candidate_set1 <- candidate_set1[-1, , drop=FALSE]
 
-kandidatenmenge2 <- matrix(ncol=3, , byrow=TRUE)
-kandidatenmenge2 <- kandidatenmenge2[-1, , drop=FALSE]
+candidate_set2 <- matrix(ncol=3, , byrow=TRUE)
+candidate_set2 <- candidate_set2[-1, , drop=FALSE]
 
-kandidatenmenge3 <- matrix(ncol=3, , byrow=TRUE)
-kandidatenmenge3 <- kandidatenmenge3[-1, , drop=FALSE]
+candidate_set3 <- matrix(ncol=3, , byrow=TRUE)
+candidate_set3 <- candidate_set3[-1, , drop=FALSE]
 
-n_p1 <- c(m,0,0)
-n_p2 <- c(0,n,0)
-n_p3 <- c(0,0,u)
+first_element1 <- c(m,0,0)
+first_element2 <- c(0,n,0)
+first_element3 <- c(0,0,u)
 
-kandidatenmenge1 <- rbind(kandidatenmenge1, n_p1)
-kandidatenmenge2 <- rbind(kandidatenmenge2, n_p2)
-kandidatenmenge3 <- rbind(kandidatenmenge3, n_p3)
+candidate_set1 <- rbind(candidate_set1, first_element1)
+candidate_set2 <- rbind(candidate_set2, first_element2)
+candidate_set3 <- rbind(candidate_set3, first_element3)
 
 
 
@@ -42,9 +53,14 @@ result <- function()
 i <- 1
 while(nrow(my_matrix) < m*n*u)
 {
+
+
+
+# Calculating p_value of elements of the three candidate_sets:
+
 lst1 <- c()
-for (k in 1:nrow(kandidatenmenge1)) {
-                                    P_k_max <- function() {sum <- 0
+for (k in 1:nrow(candidate_set1)) {
+                                    p_k_value <- function() {sum <- 0
                                                           sumI <- 0
                                                           if (nrow(my_matrix) == 0) {
                                                                                     sum <- 0
@@ -55,7 +71,7 @@ for (k in 1:nrow(kandidatenmenge1)) {
                                                                                                                  sum <- sum + termI
                                                                                                                  }
                                                                                     }                                                                                                                                                 
-                                                          TermII <- sum + (factorial(m) * factorial(n) * factorial(u) / (factorial(kandidatenmenge1[k,1]) * factorial(kandidatenmenge1[k,2]) * factorial(kandidatenmenge1[k,3]) * factorial(m-kandidatenmenge1[k,1]) * factorial(n-kandidatenmenge1[k,2]) * factorial(u-kandidatenmenge1[k,3]))) * (p^(kandidatenmenge1[k,1]+kandidatenmenge1[k,2]+kandidatenmenge1[k,3]) * (1-p)^(m-kandidatenmenge1[k,1]+ (n-kandidatenmenge1[k,2]) + (u-kandidatenmenge1[k,3])) + (1-p)^(kandidatenmenge1[k,1]+kandidatenmenge1[k,2]+kandidatenmenge1[k,3]) * p^(m-kandidatenmenge1[k,1]+ (n-kandidatenmenge1[k,2]) + (u-kandidatenmenge1[k,3])))
+                                                          TermII <- sum + (factorial(m) * factorial(n) * factorial(u) / (factorial(candidate_set1[k,1]) * factorial(candidate_set1[k,2]) * factorial(candidate_set1[k,3]) * factorial(m-candidate_set1[k,1]) * factorial(n-candidate_set1[k,2]) * factorial(u-candidate_set1[k,3]))) * (p^(candidate_set1[k,1]+candidate_set1[k,2]+candidate_set1[k,3]) * (1-p)^(m-candidate_set1[k,1]+ (n-candidate_set1[k,2]) + (u-candidate_set1[k,3])) + (1-p)^(candidate_set1[k,1]+candidate_set1[k,2]+candidate_set1[k,3]) * p^(m-candidate_set1[k,1]+ (n-candidate_set1[k,2]) + (u-candidate_set1[k,3])))
                                                           p_k_max <- p[which.max(TermII)]
                                                           if (nrow(my_matrix) == 0) {
                                                                                     sumI <- 0
@@ -66,11 +82,11 @@ for (k in 1:nrow(kandidatenmenge1)) {
                                                                                                                  sumI <- sumI + TermI                                                                     
                                                                                                                  } 
                                                                                     }                                                                                                                                                                                                                                                                                                      
-                                                          TermIII <- sumI + (factorial(m) * factorial(n) * factorial(u) / (factorial(kandidatenmenge1[k,1]) * factorial(kandidatenmenge1[k,2]) * factorial(kandidatenmenge1[k,3]) * factorial(m-kandidatenmenge1[k,1]) * factorial(n-kandidatenmenge1[k,2]) * factorial(u-kandidatenmenge1[k,3]))) * (p_k_max^(kandidatenmenge1[k,1]+kandidatenmenge1[k,2]+kandidatenmenge1[k,3]) * (1-p_k_max)^(m-kandidatenmenge1[k,1]+ (n-kandidatenmenge1[k,2]) + (u-kandidatenmenge1[k,3])) + (1-p_k_max)^(kandidatenmenge1[k,1]+kandidatenmenge1[k,2]+kandidatenmenge1[k,3]) * p_k_max^(m-kandidatenmenge1[k,1]+ (n-kandidatenmenge1[k,2]) + (u-kandidatenmenge1[k,3])))
+                                                          TermIII <- sumI + (factorial(m) * factorial(n) * factorial(u) / (factorial(candidate_set1[k,1]) * factorial(candidate_set1[k,2]) * factorial(candidate_set1[k,3]) * factorial(m-candidate_set1[k,1]) * factorial(n-candidate_set1[k,2]) * factorial(u-candidate_set1[k,3]))) * (p_k_max^(candidate_set1[k,1]+candidate_set1[k,2]+candidate_set1[k,3]) * (1-p_k_max)^(m-candidate_set1[k,1]+ (n-candidate_set1[k,2]) + (u-candidate_set1[k,3])) + (1-p_k_max)^(candidate_set1[k,1]+candidate_set1[k,2]+candidate_set1[k,3]) * p_k_max^(m-candidate_set1[k,1]+ (n-candidate_set1[k,2]) + (u-candidate_set1[k,3])))
                                                           return(TermIII)
                                                           }
-                                     ErgebnisIII <- P_k_max()
-                                     lst1 <- c(lst1,ErgebnisIII)
+                                     result <- p_k_value()
+                                     lst1 <- c(lst1,result)
                                      } 
               
 min_indizes1 <- function(lst1) { 
@@ -81,8 +97,8 @@ min_indizes1 <- function(lst1) {
 
 
 lst2 <- c()
-for (k in 1:nrow(kandidatenmenge2)) {
-                                    P_k_max <- function() {sum <- 0
+for (k in 1:nrow(candidate_set2)) {
+                                    p_k_value <- function() {sum <- 0
                                                           sumI <- 0
                                                           if (nrow(my_matrix) == 0) {
                                                                                     sum <- 0
@@ -93,7 +109,7 @@ for (k in 1:nrow(kandidatenmenge2)) {
                                                                                                                  sum <- sum + termI
                                                                                                                  }
                                                                                     }                                                                                                                                                 
-                                                          TermII <- sum + (factorial(m) * factorial(n) * factorial(u) / (factorial(kandidatenmenge2[k,1]) * factorial(kandidatenmenge2[k,2]) * factorial(kandidatenmenge2[k,3]) * factorial(m-kandidatenmenge2[k,1]) * factorial(n-kandidatenmenge2[k,2]) * factorial(u-kandidatenmenge2[k,3]))) * (p^(kandidatenmenge2[k,1]+kandidatenmenge2[k,2]+kandidatenmenge2[k,3]) * (1-p)^(m-kandidatenmenge2[k,1]+ (n-kandidatenmenge2[k,2]) + (u-kandidatenmenge2[k,3])) + (1-p)^(kandidatenmenge2[k,1]+kandidatenmenge2[k,2]+kandidatenmenge2[k,3]) * p^(m-kandidatenmenge2[k,1]+ (n-kandidatenmenge2[k,2]) + (u-kandidatenmenge2[k,3])))
+                                                          TermII <- sum + (factorial(m) * factorial(n) * factorial(u) / (factorial(candidate_set2[k,1]) * factorial(candidate_set2[k,2]) * factorial(candidate_set2[k,3]) * factorial(m-candidate_set2[k,1]) * factorial(n-candidate_set2[k,2]) * factorial(u-candidate_set2[k,3]))) * (p^(candidate_set2[k,1]+candidate_set2[k,2]+candidate_set2[k,3]) * (1-p)^(m-candidate_set2[k,1]+ (n-candidate_set2[k,2]) + (u-candidate_set2[k,3])) + (1-p)^(candidate_set2[k,1]+candidate_set2[k,2]+candidate_set2[k,3]) * p^(m-candidate_set2[k,1]+ (n-candidate_set2[k,2]) + (u-candidate_set2[k,3])))
                                                           p_k_max <- p[which.max(TermII)]
                                                           if (nrow(my_matrix) == 0) {
                                                                                     sumI <- 0
@@ -104,11 +120,11 @@ for (k in 1:nrow(kandidatenmenge2)) {
                                                                                                                  sumI <- sumI + TermI                                                                     
                                                                                                                  } 
                                                                                     }                                                                                                                                                                                                                                                                                                      
-                                                          TermIII <- sumI + (factorial(m) * factorial(n) * factorial(u) / (factorial(kandidatenmenge2[k,1]) * factorial(kandidatenmenge2[k,2]) * factorial(kandidatenmenge2[k,3]) * factorial(m-kandidatenmenge2[k,1]) * factorial(n-kandidatenmenge2[k,2]) * factorial(u-kandidatenmenge2[k,3]))) * (p_k_max^(kandidatenmenge2[k,1]+kandidatenmenge2[k,2]+kandidatenmenge2[k,3]) * (1-p_k_max)^(m-kandidatenmenge2[k,1]+ (n-kandidatenmenge2[k,2]) + (u-kandidatenmenge2[k,3])) + (1-p_k_max)^(kandidatenmenge2[k,1]+kandidatenmenge2[k,2]+kandidatenmenge2[k,3]) * p_k_max^(m-kandidatenmenge2[k,1]+ (n-kandidatenmenge2[k,2]) + (u-kandidatenmenge2[k,3])))
+                                                          TermIII <- sumI + (factorial(m) * factorial(n) * factorial(u) / (factorial(candidate_set2[k,1]) * factorial(candidate_set2[k,2]) * factorial(candidate_set2[k,3]) * factorial(m-candidate_set2[k,1]) * factorial(n-candidate_set2[k,2]) * factorial(u-candidate_set2[k,3]))) * (p_k_max^(candidate_set2[k,1]+candidate_set2[k,2]+candidate_set2[k,3]) * (1-p_k_max)^(m-candidate_set2[k,1]+ (n-candidate_set2[k,2]) + (u-candidate_set2[k,3])) + (1-p_k_max)^(candidate_set2[k,1]+candidate_set2[k,2]+candidate_set2[k,3]) * p_k_max^(m-candidate_set2[k,1]+ (n-candidate_set2[k,2]) + (u-candidate_set2[k,3])))
                                                           return(TermIII)
                                                           }
-                                     ErgebnisIII <- P_k_max()
-                                     lst2 <- c(lst2,ErgebnisIII)
+                                     result <- p_k_value()
+                                     lst2 <- c(lst2,result)
                                      } 
               
 min_indizes2 <- function(lst2) { 
@@ -121,8 +137,8 @@ min_indizes2 <- function(lst2) {
 
 
 lst3 <- c()
-for (k in 1:nrow(kandidatenmenge3)) {
-                                    P_k_max <- function() {sum <- 0
+for (k in 1:nrow(candidate_set3)) {
+                                    p_k_value <- function() {sum <- 0
                                                           sumI <- 0
                                                           if (nrow(my_matrix) == 0) {
                                                                                     sum <- 0
@@ -133,7 +149,7 @@ for (k in 1:nrow(kandidatenmenge3)) {
                                                                                                                  sum <- sum + termI
                                                                                                                  }
                                                                                     }                                                                                                                                                 
-                                                          TermII <- sum + (factorial(m) * factorial(n) * factorial(u) / (factorial(kandidatenmenge3[k,1]) * factorial(kandidatenmenge3[k,2]) * factorial(kandidatenmenge3[k,3]) * factorial(m-kandidatenmenge3[k,1]) * factorial(n-kandidatenmenge3[k,2]) * factorial(u-kandidatenmenge3[k,3]))) * (p^(kandidatenmenge3[k,1]+kandidatenmenge3[k,2]+kandidatenmenge3[k,3]) * (1-p)^(m-kandidatenmenge3[k,1]+ (n-kandidatenmenge3[k,2]) + (u-kandidatenmenge3[k,3])) + p^(m-kandidatenmenge3[k,1]+ (n-kandidatenmenge3[k,2]) + (u-kandidatenmenge3[k,3])) * (1-p)^(kandidatenmenge3[k,1]+kandidatenmenge3[k,2]+kandidatenmenge3[k,3]))
+                                                          TermII <- sum + (factorial(m) * factorial(n) * factorial(u) / (factorial(candidate_set3[k,1]) * factorial(candidate_set3[k,2]) * factorial(candidate_set3[k,3]) * factorial(m-candidate_set3[k,1]) * factorial(n-candidate_set3[k,2]) * factorial(u-candidate_set3[k,3]))) * (p^(candidate_set3[k,1]+candidate_set3[k,2]+candidate_set3[k,3]) * (1-p)^(m-candidate_set3[k,1]+ (n-candidate_set3[k,2]) + (u-candidate_set3[k,3])) + p^(m-candidate_set3[k,1]+ (n-candidate_set3[k,2]) + (u-candidate_set3[k,3])) * (1-p)^(candidate_set3[k,1]+candidate_set3[k,2]+candidate_set3[k,3]))
                                                           p_k_max <- p[which.max(TermII)]
                                                           if (nrow(my_matrix) == 0) {
                                                                                     sumI <- 0
@@ -144,11 +160,11 @@ for (k in 1:nrow(kandidatenmenge3)) {
                                                                                                                  sumI <- sumI + TermI                                                                     
                                                                                                                  } 
                                                                                     }                                                                                                                                                                                                                                                                                                      
-                                                          TermIII <- sumI + (factorial(m) * factorial(n) * factorial(u) / (factorial(kandidatenmenge3[k,1]) * factorial(kandidatenmenge3[k,2]) * factorial(kandidatenmenge3[k,3]) * factorial(m-kandidatenmenge3[k,1]) * factorial(n-kandidatenmenge3[k,2]) * factorial(u-kandidatenmenge3[k,3]))) * (p_k_max^(kandidatenmenge3[k,1]+kandidatenmenge3[k,2]+kandidatenmenge3[k,3]) * (1-p_k_max)^(m-kandidatenmenge3[k,1]+ (n-kandidatenmenge3[k,2]) + (u-kandidatenmenge3[k,3])) + p_k_max^(m-kandidatenmenge3[k,1]+ (n-kandidatenmenge3[k,2]) + (u-kandidatenmenge3[k,3])) * (1-p_k_max)^(kandidatenmenge3[k,1]+kandidatenmenge3[k,2]+kandidatenmenge3[k,3]))
+                                                          TermIII <- sumI + (factorial(m) * factorial(n) * factorial(u) / (factorial(candidate_set3[k,1]) * factorial(candidate_set3[k,2]) * factorial(candidate_set3[k,3]) * factorial(m-candidate_set3[k,1]) * factorial(n-candidate_set3[k,2]) * factorial(u-candidate_set3[k,3]))) * (p_k_max^(candidate_set3[k,1]+candidate_set3[k,2]+candidate_set3[k,3]) * (1-p_k_max)^(m-candidate_set3[k,1]+ (n-candidate_set3[k,2]) + (u-candidate_set3[k,3])) + p_k_max^(m-candidate_set3[k,1]+ (n-candidate_set3[k,2]) + (u-candidate_set3[k,3])) * (1-p_k_max)^(candidate_set3[k,1]+candidate_set3[k,2]+candidate_set3[k,3]))
                                                           return(TermIII)
                                                           }
-                                     ErgebnisIII <- P_k_max()
-                                     lst3 <- c(lst3,ErgebnisIII)
+                                     result <- p_k_value()
+                                     lst3 <- c(lst3,result)
                                      } 
               
 min_indizes3 <- function(lst3) { 
@@ -158,44 +174,54 @@ min_indizes3 <- function(lst3) {
 
 
 
-zwischenmatrix <- matrix(ncol=3, ,byrow=TRUE)
-zwischenmatrix <- zwischenmatrix[-1, , drop=FALSE]
+
+
+#Adding element(s) with smallest p value(s) to the interim_matrix:
+
+
+interim_matrix <- matrix(ncol=3, ,byrow=TRUE)
+interim_matrix <- interim_matrix[-1, , drop=FALSE]
 
 if (min(lst1) <= min(lst2) && min(lst1) <= min(lst3)) { 
                                                     for (e in 1:length(min_indizes1(lst1))) {
-                                                                                            N_p <- c(kandidatenmenge1[min_indizes1(lst1)[e],1],kandidatenmenge1[min_indizes1(lst1)[e],2],kandidatenmenge1[min_indizes1(lst1)[e],3])
-                                                                                            N_p1 <- c(m - kandidatenmenge1[min_indizes1(lst1)[e],1],n - kandidatenmenge1[min_indizes1(lst1)[e],2],u - kandidatenmenge1[min_indizes1(lst1)[e],3])
-                                                                                            zwischenmatrix <- rbind(zwischenmatrix, N_p)
-                                                                                            zwischenmatrix <- rbind(zwischenmatrix, N_p1)
+                                                                                            new_pair <- c(candidate_set1[min_indizes1(lst1)[e],1],candidate_set1[min_indizes1(lst1)[e],2],candidate_set1[min_indizes1(lst1)[e],3])
+                                                                                            new_pair1 <- c(m - candidate_set1[min_indizes1(lst1)[e],1],n - candidate_set1[min_indizes1(lst1)[e],2],u - candidate_set1[min_indizes1(lst1)[e],3])
+                                                                                            interim_matrix <- rbind(interim_matrix, new_pair)
+                                                                                            interim_matrix <- rbind(interim_matrix, new_pair1)
                                                                                             }
                                                     }
                                                     
 if (min(lst2) <= min(lst1) && min(lst2) <= min(lst3)) { 
                                                     for (e in 1:length(min_indizes2(lst2))) {
-                                                                                            N_p <- c(kandidatenmenge2[min_indizes2(lst2)[e],1],kandidatenmenge2[min_indizes2(lst2)[e],2],kandidatenmenge2[min_indizes2(lst2)[e],3])
-                                                                                            N_p1 <- c(m - kandidatenmenge2[min_indizes2(lst2)[e],1],n - kandidatenmenge2[min_indizes2(lst2)[e],2],u - kandidatenmenge2[min_indizes2(lst2)[e],3])
-                                                                                            zwischenmatrix <- rbind(zwischenmatrix, N_p)
-                                                                                            zwischenmatrix <- rbind(zwischenmatrix, N_p1)
+                                                                                            new_pair <- c(candidate_set2[min_indizes2(lst2)[e],1],candidate_set2[min_indizes2(lst2)[e],2],candidate_set2[min_indizes2(lst2)[e],3])
+                                                                                            new_pair1 <- c(m - candidate_set2[min_indizes2(lst2)[e],1],n - candidate_set2[min_indizes2(lst2)[e],2],u - candidate_set2[min_indizes2(lst2)[e],3])
+                                                                                            interim_matrix <- rbind(interim_matrix, new_pair)
+                                                                                            interim_matrix <- rbind(interim_matrix, new_pair1)
                                                                                             }
                                                     }
 if (min(lst3) <= min(lst1) && min(lst3) <= min(lst2)) { 
                                                     for (e in 1:length(min_indizes3(lst3))) {
-                                                                                            N_p <- c(kandidatenmenge3[min_indizes3(lst3)[e],1],kandidatenmenge3[min_indizes3(lst3)[e],2],kandidatenmenge3[min_indizes3(lst3)[e],3])
-                                                                                            N_p1 <- c(m - kandidatenmenge3[min_indizes3(lst3)[e],1],n - kandidatenmenge3[min_indizes3(lst3)[e],2],u - kandidatenmenge3[min_indizes3(lst3)[e],3])
-                                                                                            zwischenmatrix <- rbind(zwischenmatrix, N_p)
-                                                                                            zwischenmatrix <- rbind(zwischenmatrix, N_p1)
+                                                                                            new_pair <- c(candidate_set3[min_indizes3(lst3)[e],1],candidate_set3[min_indizes3(lst3)[e],2],candidate_set3[min_indizes3(lst3)[e],3])
+                                                                                            new_pair1 <- c(m - candidate_set3[min_indizes3(lst3)[e],1],n - candidate_set3[min_indizes3(lst3)[e],2],u - candidate_set3[min_indizes3(lst3)[e],3])
+                                                                                            interim_matrix <- rbind(interim_matrix, new_pair)
+                                                                                            interim_matrix <- rbind(interim_matrix, new_pair1)
                                                                                             }
                                                     }
 
 
-e <- nrow(zwischenmatrix)
+e <- nrow(interim_matrix)
 
-zwischenmatrix <- unique(zwischenmatrix)
+interim_matrix <- unique(interim_matrix)
 
-o <- nrow(zwischenmatrix)
+o <- nrow(interim_matrix)
 
 
-if (nrow(zwischenmatrix) == 2 && e == o) {
+
+
+
+
+
+if (nrow(interim_matrix) == 2 && e == o) {
                                          if (min(lst1) < min(lst2) && min(lst1) < min(lst3)) {
                                                                                              p_value <- min(lst1)                                                                                                     
                                                                                              } 
@@ -204,11 +230,8 @@ if (nrow(zwischenmatrix) == 2 && e == o) {
                                                                                              }
                                          if (min(lst3) < min(lst1) && min(lst3) < min(lst2)) {
                                                                                              p_value <- min(lst3)                                                                                                                                                                                                 
-                                                                                             } 
-                                                                                              
+                                                                                             }                                                                        
                                          }                                                                                                   
-
-
 
 
                                                                                      
@@ -216,58 +239,67 @@ if (nrow(zwischenmatrix) == 2 && e == o) {
 
 
 
-if (nrow(zwischenmatrix) > 2 || e != o) {
+if (nrow(interim_matrix) > 2 || e != o) {
                                         pv <- function() {
                                                     sumIII <- 0
                                                     sumIV <- 0                                                                                                                                                                                                                                                                                                                                               
                                                    if (nrow(my_matrix) != 0) {
                                                                              for (j in 1:nrow(my_matrix)) {                                                                                                
-                                                                                                          neues_paar <- c(my_matrix[j,1],my_matrix[j,2],my_matrix[j,3])
-                                                                                                          zwischenmatrix <- rbind(zwischenmatrix,neues_paar)
+                                                                                                          new_pair <- c(my_matrix[j,1],my_matrix[j,2],my_matrix[j,3])
+                                                                                                          interim_matrix <- rbind(interim_matrix,new_pair)
                                                                                                           }
                                                                              }
                                                                                                                                                                                                                          
-                                                   for (k in 1:nrow(zwischenmatrix)) {
-                                                                                     TermI <- (factorial(m) * factorial(n) * factorial(u) / (factorial(zwischenmatrix[k,1]) * factorial(zwischenmatrix[k,2]) * factorial(zwischenmatrix[k,3]) * factorial(m-zwischenmatrix[k,1]) * factorial(n-zwischenmatrix[k,2]) * factorial(u-zwischenmatrix[k,3]))) * (p^(zwischenmatrix[k,1]+zwischenmatrix[k,2]+zwischenmatrix[k,3]) * (1-p)^(m-zwischenmatrix[k,1]+ (n-zwischenmatrix[k,2]) + (u-zwischenmatrix[k,3]))) 
+                                                   for (k in 1:nrow(interim_matrix)) {
+                                                                                     TermI <- (factorial(m) * factorial(n) * factorial(u) / (factorial(interim_matrix[k,1]) * factorial(interim_matrix[k,2]) * factorial(interim_matrix[k,3]) * factorial(m-interim_matrix[k,1]) * factorial(n-interim_matrix[k,2]) * factorial(u-interim_matrix[k,3]))) * (p^(interim_matrix[k,1]+interim_matrix[k,2]+interim_matrix[k,3]) * (1-p)^(m-interim_matrix[k,1]+ (n-interim_matrix[k,2]) + (u-interim_matrix[k,3]))) 
                                                                                      sumIII <- sumIII + TermI
                                                                                      }                                                                                    
                                                    p_max <- p[which.max(sumIII)]
-                                                   for (k in 1:nrow(zwischenmatrix)) {
-                                                                                     TermII <- (factorial(m) * factorial(n) * factorial(u) / (factorial(zwischenmatrix[k,1]) * factorial(zwischenmatrix[k,2]) * factorial(zwischenmatrix[k,3]) * factorial(m-zwischenmatrix[k,1]) * factorial(n-zwischenmatrix[k,2]) * factorial(u-zwischenmatrix[k,3]))) * (p_max^(zwischenmatrix[k,1]+zwischenmatrix[k,2]+zwischenmatrix[k,3]) * (1-p_max)^(m-zwischenmatrix[k,1]+ (n-zwischenmatrix[k,2]) + (u-zwischenmatrix[k,3])))
+                                                   for (k in 1:nrow(interim_matrix)) {
+                                                                                     TermII <- (factorial(m) * factorial(n) * factorial(u) / (factorial(interim_matrix[k,1]) * factorial(interim_matrix[k,2]) * factorial(interim_matrix[k,3]) * factorial(m-interim_matrix[k,1]) * factorial(n-interim_matrix[k,2]) * factorial(u-interim_matrix[k,3]))) * (p_max^(interim_matrix[k,1]+interim_matrix[k,2]+interim_matrix[k,3]) * (1-p_max)^(m-interim_matrix[k,1]+ (n-interim_matrix[k,2]) + (u-interim_matrix[k,3])))
                                                                                      sumIV <- sumIV + TermII
                                                                                      }
                                                                                
                                                    return(sumIV)                                                                    
                                                    }
-                                   p_value <- pv()
-                                    
-                                  }
+                                        p_value <- pv()                            
+                                        }
 
 
  
-                                                                                                                                   
-                                                                                                         
-if (p_value > alpha) {
-                     break
-                     } 
+                                                                                                                                                                                                                                     
+
 
 
      
 for (s in 1:o) {
-               neues_paar <- c(zwischenmatrix[s,1],zwischenmatrix[s,2],zwischenmatrix[s,3])               
-               my_matrix <- rbind(my_matrix,neues_paar)               
+               new_pair <- c(interim_matrix[s,1],interim_matrix[s,2],interim_matrix[s,3])               
+               my_matrix <- rbind(my_matrix,new_pair)               
                }
+
+
+
+for (s in 1:o) {
+                if (interim_matrix[s,1] == x1 && interim_matrix[s,2] == x2 && interim_matrix[s,3] == x3) {
+                                                                                                         break
+                                                                                                         }
+               }
+
                                   
 
+
+
+
+#Adding new element(s) to the candidate set(s):
  
 if (min(lst1) <= min(lst2) && min(lst1) <= min(lst3)) {                                                      
                                                       for (e in 1:length(min_indizes1(lst1))) {                                                                                          
-                                                                                              N_P <- c(kandidatenmenge1[min_indizes1(lst1)[e],1]-1,kandidatenmenge1[min_indizes1(lst1)[e],2],kandidatenmenge1[min_indizes1(lst1)[e],3])
-                                                                                              N_P1 <- c(kandidatenmenge1[min_indizes1(lst1)[e],1],kandidatenmenge1[min_indizes1(lst1)[e],2]+1,kandidatenmenge1[min_indizes1(lst1)[e],3])
-                                                                                              N_P2 <- c(kandidatenmenge1[min_indizes1(lst1)[e],1],kandidatenmenge1[min_indizes1(lst1)[e],2],kandidatenmenge1[min_indizes1(lst1)[e],3]+1)
-                                                                                              kandidatenmenge1 <- rbind(kandidatenmenge1, N_P)
-                                                                                              kandidatenmenge1 <- rbind(kandidatenmenge1, N_P1)
-                                                                                              kandidatenmenge1 <- rbind(kandidatenmenge1, N_P2)
+                                                                                              new_pair <- c(candidate_set1[min_indizes1(lst1)[e],1]-1,candidate_set1[min_indizes1(lst1)[e],2],candidate_set1[min_indizes1(lst1)[e],3])
+                                                                                              new_pair1 <- c(candidate_set1[min_indizes1(lst1)[e],1],candidate_set1[min_indizes1(lst1)[e],2]+1,candidate_set1[min_indizes1(lst1)[e],3])
+                                                                                              new_pair2 <- c(candidate_set1[min_indizes1(lst1)[e],1],candidate_set1[min_indizes1(lst1)[e],2],candidate_set1[min_indizes1(lst1)[e],3]+1)
+                                                                                              candidate_set1 <- rbind(candidate_set1, new_pair)
+                                                                                              candidate_set1 <- rbind(candidate_set1, new_pair1)
+                                                                                              candidate_set1 <- rbind(candidate_set1, new_pair2)
                                                                                               }
                                                       }
                                                                                              
@@ -275,141 +307,158 @@ if (min(lst1) <= min(lst2) && min(lst1) <= min(lst3)) {
 
 if (min(lst2) <= min(lst1) && min(lst2) <= min(lst3)) {                                                      
                                                       for (e in 1:length(min_indizes2(lst2))) {                                                                                          
-                                                                                              N_P <- c(kandidatenmenge2[min_indizes2(lst2)[e],1],kandidatenmenge2[min_indizes1(lst2)[e],2]-1,kandidatenmenge2[min_indizes2(lst2)[e],3])
-                                                                                              N_P1 <- c(kandidatenmenge2[min_indizes2(lst2)[e],1]+1,kandidatenmenge2[min_indizes1(lst2)[e],2],kandidatenmenge2[min_indizes2(lst2)[e],3])
-                                                                                              N_P2 <- c(kandidatenmenge2[min_indizes2(lst2)[e],1],kandidatenmenge2[min_indizes1(lst2)[e],2],kandidatenmenge2[min_indizes2(lst2)[e],3]+1)                                      
-                                                                                              kandidatenmenge2 <- rbind(kandidatenmenge2, N_P)
-                                                                                              kandidatenmenge2 <- rbind(kandidatenmenge2, N_P1)
-                                                                                              kandidatenmenge2 <- rbind(kandidatenmenge2, N_P2)
+                                                                                              new_pair <- c(candidate_set2[min_indizes2(lst2)[e],1],candidate_set2[min_indizes1(lst2)[e],2]-1,candidate_set2[min_indizes2(lst2)[e],3])
+                                                                                              new_pair1 <- c(candidate_set2[min_indizes2(lst2)[e],1]+1,candidate_set2[min_indizes1(lst2)[e],2],candidate_set2[min_indizes2(lst2)[e],3])
+                                                                                              new_pair2 <- c(candidate_set2[min_indizes2(lst2)[e],1],candidate_set2[min_indizes1(lst2)[e],2],candidate_set2[min_indizes2(lst2)[e],3]+1)                                      
+                                                                                              candidate_set2 <- rbind(candidate_set2, new_pair)
+                                                                                              candidate_set2 <- rbind(candidate_set2, new_pair1)
+                                                                                              candidate_set2 <- rbind(candidate_set2, new_pair2)
                                                                                               }
                                                       }
 
 if (min(lst3) <= min(lst1) && min(lst3) <= min(lst2)) {                                                      
                                                       for (e in 1:length(min_indizes3(lst3))) {                                                                                          
-                                                                                              N_P <- c(kandidatenmenge3[min_indizes3(lst3)[e],1],kandidatenmenge3[min_indizes3(lst3)[e],2],kandidatenmenge3[min_indizes3(lst3)[e],3]-1)
-                                                                                              N_P1 <- c(kandidatenmenge3[min_indizes3(lst3)[e],1]+1,kandidatenmenge3[min_indizes3(lst3)[e],2],kandidatenmenge3[min_indizes3(lst3)[e],3])
-                                                                                              N_P2 <- c(kandidatenmenge3[min_indizes3(lst3)[e],1],kandidatenmenge3[min_indizes3(lst3)[e],2]+1,kandidatenmenge3[min_indizes3(lst3)[e],3])                                                                                             
-                                                                                              kandidatenmenge3 <- rbind(kandidatenmenge3, N_P)
-                                                                                              kandidatenmenge3 <- rbind(kandidatenmenge3, N_P1)
-                                                                                              kandidatenmenge3 <- rbind(kandidatenmenge3, N_P2)
+                                                                                              new_pair <- c(candidate_set3[min_indizes3(lst3)[e],1],candidate_set3[min_indizes3(lst3)[e],2],candidate_set3[min_indizes3(lst3)[e],3]-1)
+                                                                                              new_pair1 <- c(candidate_set3[min_indizes3(lst3)[e],1]+1,candidate_set3[min_indizes3(lst3)[e],2],candidate_set3[min_indizes3(lst3)[e],3])
+                                                                                              new_pair2 <- c(candidate_set3[min_indizes3(lst3)[e],1],candidate_set3[min_indizes3(lst3)[e],2]+1,candidate_set3[min_indizes3(lst3)[e],3])                                                                                             
+                                                                                              candidate_set3 <- rbind(candidate_set3, new_pair)
+                                                                                              candidate_set3 <- rbind(candidate_set3, new_pair1)
+                                                                                              candidate_set3 <- rbind(candidate_set3, new_pair2)
                                                                                               }
                                                       }
 
 
                                                      
 
+# Deleting element(s) from candidate set(s) which were transferred to my_matrix:
+
+new_candidate_set1 <- matrix(ncol=3, , byrow=TRUE)
+new_candidate_set1 <- new_candidate_set1[-1, , drop=FALSE]
 
 
-
-
-kandidatenmengeI <- matrix(ncol=3, , byrow=TRUE)
-kandidatenmengeI <- kandidatenmengeI[-1, , drop=FALSE]
-for (g in 1:nrow(kandidatenmenge1)) {T <- 0
+for (g in 1:nrow(candidate_set1)) {T <- 0
                                     for (f in 1:nrow(my_matrix)) {                                                                
-                                                                 if (my_matrix[f,1]==kandidatenmenge1[g,1] && my_matrix[f,2]==kandidatenmenge1[g,2] && my_matrix[f,3]==kandidatenmenge1[g,3]) {
+                                                                 if (my_matrix[f,1]==candidate_set1[g,1] && my_matrix[f,2]==candidate_set1[g,2] && my_matrix[f,3]==candidate_set1[g,3]) {
                                                                                                                                                                                              t <- 1 
                                                                  T <- T + t                                                                                                                  }
                                                                  }                                                                                                                           
                                     if (T==0) {
-                                              N_p <- c(kandidatenmenge1[g,1],kandidatenmenge1[g,2],kandidatenmenge1[g,3])
-                                              kandidatenmengeI <- rbind(kandidatenmengeI,N_p)
+                                              new_pair <- c(candidate_set1[g,1],candidate_set1[g,2],candidate_set1[g,3])
+                                              new_candidate_set1 <- rbind(new_candidate_set1,new_pair)
                                               }
                                                                 
                                     }
-kandidatenmenge1 <- kandidatenmengeI
+candidate_set1 <- new_candidate_set1
 
 
 
-kandidatenmengeII <- matrix(ncol=3, , byrow=TRUE)
-kandidatenmengeII <- kandidatenmengeII[-1, , drop=FALSE]
-for (g in 1:nrow(kandidatenmenge2)) {T <- 0
+new_candidate_set2 <- matrix(ncol=3, , byrow=TRUE)
+new_candidate_set2 <- new_candidate_set2[-1, , drop=FALSE]
+
+for (g in 1:nrow(candidate_set2)) {T <- 0
                                     for (f in 1:nrow(my_matrix)) {                                                                
-                                                                 if (my_matrix[f,1]==kandidatenmenge2[g,1] && my_matrix[f,2]==kandidatenmenge2[g,2] && my_matrix[f,3]==kandidatenmenge2[g,3]) {
+                                                                 if (my_matrix[f,1]==candidate_set2[g,1] && my_matrix[f,2]==candidate_set2[g,2] && my_matrix[f,3]==candidate_set2[g,3]) {
                                                                                                                                                                                              t <- 1 
                                                                  T <- T + t                                                                                                                  }
                                                                  }                                                                                                                           
                                     if (T==0) {
-                                              N_p <- c(kandidatenmenge2[g,1],kandidatenmenge2[g,2],kandidatenmenge2[g,3])
-                                              kandidatenmengeII <- rbind(kandidatenmengeII,N_p)
+                                              new_pair <- c(candidate_set2[g,1],candidate_set2[g,2],candidate_set2[g,3])
+                                              new_candidate_set2 <- rbind(new_candidate_set2,new_pair)
                                               }
                                                                 
                                     }
-kandidatenmenge2 <- kandidatenmengeII
+candidate_set2 <- new_candidate_set2
 
 
 
-kandidatenmengeIII <- matrix(ncol=3, , byrow=TRUE)
-kandidatenmengeIII <- kandidatenmengeIII[-1, , drop=FALSE]
-for (g in 1:nrow(kandidatenmenge3)) {T <- 0
+new_candidate_set3 <- matrix(ncol=3, , byrow=TRUE)
+new_candidate_set3 <- new_candidate_set3[-1, , drop=FALSE]
+
+for (g in 1:nrow(candidate_set3)) {T <- 0
                                     for (f in 1:nrow(my_matrix)) {                                                                
-                                                                 if (my_matrix[f,1]==kandidatenmenge3[g,1] && my_matrix[f,2]==kandidatenmenge3[g,2] && my_matrix[f,3]==kandidatenmenge3[g,3]) {
+                                                                 if (my_matrix[f,1]==candidate_set3[g,1] && my_matrix[f,2]==candidate_set3[g,2] && my_matrix[f,3]==candidate_set3[g,3]) {
                                                                                                                                                                                              t <- 1 
                                                                  T <- T + t                                                                                                                  }
                                                                  }                                                                                                                           
                                     if (T==0) {
-                                              N_p <- c(kandidatenmenge3[g,1],kandidatenmenge3[g,2],kandidatenmenge3[g,3])
-                                              kandidatenmengeIII <- rbind(kandidatenmengeIII,N_p)
+                                              new_pair <- c(candidate_set3[g,1],candidate_set3[g,2],candidate_set3[g,3])
+                                              new_candidate_set3 <- rbind(new_candidate_set3,new_pair)
                                               }
                                                                 
                                     }
-kandidatenmenge3 <- kandidatenmengeIII
+candidate_set3 <- new_candidate_set3
 
 
-  Kandidatenmenge1 <- matrix(ncol=3, , byrow=TRUE)
-  Kandidatenmenge1 <- Kandidatenmenge1[-1, , drop=FALSE]
-  Kandidatenmenge2 <- matrix(ncol=3, , byrow=TRUE)
-  Kandidatenmenge2 <- Kandidatenmenge2[-1, , drop=FALSE]
-  Kandidatenmenge3 <- matrix(ncol=3, , byrow=TRUE)
-  Kandidatenmenge3 <- Kandidatenmenge3[-1, , drop=FALSE]
-  for (k in 1:nrow(kandidatenmenge1)) {S <- 0
-                                      for (j in 1:nrow(kandidatenmenge1)) {s <- 0
-                                                                          if ((kandidatenmenge1[k,1] < kandidatenmenge1[j,1] && kandidatenmenge1[k,2] == kandidatenmenge1[j,2] && kandidatenmenge1[k,3] == kandidatenmenge1[j,3]) || (kandidatenmenge1[k,1] == kandidatenmenge1[j,1] && kandidatenmenge1[k,2] > kandidatenmenge1[j,2] && kandidatenmenge1[k,3] == kandidatenmenge1[j,3]) || (kandidatenmenge1[k,1] == kandidatenmenge1[j,1] && kandidatenmenge1[k,2] == kandidatenmenge1[j,2] && kandidatenmenge1[k,3] > kandidatenmenge1[j,3]))
+
+
+
+
+# Eliminating element(s) from the candidate set(s) which violate the convexity condition:
+
+
+  Candidate_set1 <- matrix(ncol=3, , byrow=TRUE)
+  Candidate_set1 <- Candidate_set1[-1, , drop=FALSE]
+  Candidate_set2 <- matrix(ncol=3, , byrow=TRUE)
+  Candidate_set2 <- Candidate_set2[-1, , drop=FALSE]
+  Candidate_set3 <- matrix(ncol=3, , byrow=TRUE)
+  Candidate_set3 <- Candidate_set3[-1, , drop=FALSE]
+
+  for (k in 1:nrow(candidate_set1)) {S <- 0
+                                      for (j in 1:nrow(candidate_set1)) {s <- 0
+                                                                          if ((candidate_set1[k,1] < candidate_set1[j,1] && candidate_set1[k,2] == candidate_set1[j,2] && candidate_set1[k,3] == candidate_set1[j,3]) || (candidate_set1[k,1] == candidate_set1[j,1] && candidate_set1[k,2] > candidate_set1[j,2] && candidate_set1[k,3] == candidate_set1[j,3]) || (candidate_set1[k,1] == candidate_set1[j,1] && candidate_set1[k,2] == candidate_set1[j,2] && candidate_set1[k,3] > candidate_set1[j,3]))
                                                                                    {
                                                                                    s <- 1
                                                                                    }
                                                                           S <- S + s
                                                                           }
                                       if (S==0)   {
-                                                  N_p <- c(kandidatenmenge1[k,1],kandidatenmenge1[k,2],kandidatenmenge1[k,3])
-                                                  Kandidatenmenge1 <- rbind(Kandidatenmenge1, N_p)
+                                                  new_pair <- c(candidate_set1[k,1],candidate_set1[k,2],candidate_set1[k,3])
+                                                  Candidate_set1 <- rbind(Candidate_set1, new_pair)
                                                   }
                                       }
-  kandidatenmenge1 <- Kandidatenmenge1
-  for (k in 1:nrow(kandidatenmenge2)) {S <- 0
-                                      for (j in 1:nrow(kandidatenmenge2)) {s <- 0
-                                                                          if ((kandidatenmenge2[k,1] > kandidatenmenge2[j,1] && kandidatenmenge2[k,2] == kandidatenmenge2[j,2] && kandidatenmenge2[k,3] == kandidatenmenge2[j,3]) || (kandidatenmenge2[k,1] == kandidatenmenge2[j,1] && kandidatenmenge2[k,2] < kandidatenmenge2[j,2] && kandidatenmenge2[k,3] == kandidatenmenge2[j,3]) || (kandidatenmenge2[k,1] == kandidatenmenge2[j,1] && kandidatenmenge2[k,2] == kandidatenmenge2[j,2] && kandidatenmenge2[k,3] > kandidatenmenge2[j,3]))
+  candidate_set1 <- Candidate_set1
+
+  for (k in 1:nrow(candidate_set2)) {S <- 0
+                                      for (j in 1:nrow(candidate_set2)) {s <- 0
+                                                                          if ((candidate_set2[k,1] > candidate_set2[j,1] && candidate_set2[k,2] == candidate_set2[j,2] && candidate_set2[k,3] == candidate_set2[j,3]) || (candidate_set2[k,1] == candidate_set2[j,1] && candidate_set2[k,2] < candidate_set2[j,2] && candidate_set2[k,3] == candidate_set2[j,3]) || (candidate_set2[k,1] == candidate_set2[j,1] && candidate_set2[k,2] == candidate_set2[j,2] && candidate_set2[k,3] > candidate_set2[j,3]))
                                                                                    {
                                                                                    s <- 1
                                                                                    }
                                                                            S <- S + s
                                                                           }
                                      if (S==0)   {
-                                                 N_p <- c(kandidatenmenge2[k,1],kandidatenmenge2[k,2],kandidatenmenge2[k,3])
-                                                 Kandidatenmenge2 <- rbind(Kandidatenmenge2, N_p)
+                                                 new_pair <- c(candidate_set2[k,1],candidate_set2[k,2],candidate_set2[k,3])
+                                                 Candidate_set2 <- rbind(Candidate_set2, new_pair)
                                                  }
                                       }
-  kandidatenmenge2 <- Kandidatenmenge2
-  for (k in 1:nrow(kandidatenmenge3)) {S <- 0
-                                      for (j in 1:nrow(kandidatenmenge3)) {s <- 0
-                                                                          if ((kandidatenmenge3[k,1] > kandidatenmenge3[j,1] && kandidatenmenge3[k,2] == kandidatenmenge3[j,2] && kandidatenmenge3[k,3] == kandidatenmenge3[j,3]) || (kandidatenmenge3[k,1] == kandidatenmenge3[j,1] && kandidatenmenge3[k,2] > kandidatenmenge3[j,2] && kandidatenmenge3[k,3] == kandidatenmenge3[j,3]) || (kandidatenmenge3[k,1] == kandidatenmenge3[j,1] && kandidatenmenge3[k,2] == kandidatenmenge3[j,2] && kandidatenmenge3[k,3] < kandidatenmenge3[j,3]))
+  candidate_set2 <- Candidate_set2
+
+  for (k in 1:nrow(candidate_set3)) {S <- 0
+                                      for (j in 1:nrow(candidate_set3)) {s <- 0
+                                                                          if ((candidate_set3[k,1] > candidate_set3[j,1] && candidate_set3[k,2] == candidate_set3[j,2] && candidate_set3[k,3] == candidate_set3[j,3]) || (candidate_set3[k,1] == candidate_set3[j,1] && candidate_set3[k,2] > candidate_set3[j,2] && candidate_set3[k,3] == candidate_set3[j,3]) || (candidate_set3[k,1] == candidate_set3[j,1] && candidate_set3[k,2] == candidate_set3[j,2] && candidate_set3[k,3] < candidate_set3[j,3]))
                                                                                   {
                                                                                   s <- 1
                                                                                   }
                                                                           S <- S + s
                                                                           }
                                       if (S==0)   {
-                                                  N_p <- c(kandidatenmenge3[k,1],kandidatenmenge3[k,2],kandidatenmenge3[k,3])
-                                                  Kandidatenmenge3 <- rbind(Kandidatenmenge3, N_p)
+                                                  new_pair <- c(candidate_set3[k,1],candidate_set3[k,2],candidate_set3[k,3])
+                                                  Candidate_set3 <- rbind(Candidate_set3, new_pair)
                                                   }
                                       }
 
-  kandidatenmenge3 <- Kandidatenmenge3  
+  candidate_set3 <- Candidate_set3  
 
  
                     
 i <- i + 1
 
 }
-return(my_matrix)
+return(p_value)
 }
-ablehnregion <- result()
+
+p_value_OCT <- result()
+
+
+
+p_value_OCT
