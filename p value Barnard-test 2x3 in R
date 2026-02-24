@@ -56,7 +56,7 @@ while(nrow(my_matrix) < m*n*u)
 
 
 
-# Calculating p_value of elements of the three candidate_sets:
+#1: Calculating p_value of elements of the three candidate_sets:
 
 lst1 <- c()
 for (k in 1:nrow(candidate_set1)) {
@@ -176,7 +176,7 @@ min_indizes3 <- function(lst3) {
 
 
 
-#Adding element(s) with smallest p value(s) to the interim_matrix:
+#2: Adding element(s) with smallest p value(s) to the interim_matrix:
 
 
 interim_matrix <- matrix(ncol=3, ,byrow=TRUE)
@@ -290,7 +290,7 @@ for (s in 1:o) {
 
 
 
-#Adding new element(s) to the candidate set(s):
+#3: Adding new element(s) to the candidate set(s):
  
 if (min(lst1) <= min(lst2) && min(lst1) <= min(lst3)) {                                                      
                                                       for (e in 1:length(min_indizes1(lst1))) {                                                                                          
@@ -330,7 +330,7 @@ if (min(lst3) <= min(lst1) && min(lst3) <= min(lst2)) {
 
                                                      
 
-# Deleting element(s) from candidate set(s) which were transferred to my_matrix:
+#4: Deleting element(s) from candidate set(s) which were transferred to my_matrix:
 
 new_candidate_set1 <- matrix(ncol=3, , byrow=TRUE)
 new_candidate_set1 <- new_candidate_set1[-1, , drop=FALSE]
@@ -393,7 +393,7 @@ candidate_set3 <- new_candidate_set3
 
 
 
-# Eliminating element(s) from the candidate set(s) which violate the convexity condition:
+#5: Eliminating element(s) from the candidate set(s) which violate the convexity condition:
 
 
   Candidate_set1 <- matrix(ncol=3, , byrow=TRUE)
